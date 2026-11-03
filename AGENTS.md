@@ -2,7 +2,7 @@
 
 Plataforma IoT própria da BM Automach, fork da ThingsBoard **v4.3.1.8 (Apache 2.0)**, para hospedar clientes com marca própria.
 Leia também `FORK-PLAN.md`. Este arquivo é o contrato de trabalho dos agentes.
-Claude Code e Codex trabalham **de forma independente e nunca ao mesmo tempo**: o Matheus aciona um de cada vez, cada um na sua branch, sem orquestrador.
+Claude Code e Codex trabalham **de forma independente, sem orquestrador**, cada um na sua branch e na sua cópia de trabalho (`git worktree`), em diretórios diferentes do projeto. Um não edita o diretório do outro.
 
 ## Regras inegociáveis
 
@@ -20,7 +20,7 @@ Claude Code e Codex trabalham **de forma independente e nunca ao mesmo tempo**: 
 | Interface, marca, idioma, tema | Claude Code | `ui-ngx/` |
 | Backend, implantação, build, segurança | Codex | `application/`, `common/`, `dao/`, `rule-engine/`, `transport/`, `docker/`, `msa/`, `packaging/` |
 
-Quem estiver ativo pode pegar qualquer tarefa da lista abaixo, mesmo fora do seu diretório padrão. Antes de começar, rode `git fetch` e confira `git branch -r` para não repetir trabalho de outra branch.
+Cada agente edita só o seu diretório. Se precisar de uma mudança no diretório do outro, registre em `docs/pedidos-entre-agentes.md` (arquivo novo, uma seção por pedido) em vez de editar. Documentação nova vai em `docs/`, em arquivos novos, para evitar conflito.
 
 Arquivos compartilhados (`pom.xml` da raiz, `LICENSE`, `AGENTS.md`, `FORK-PLAN.md`) só mudam com combinado prévio.
 
@@ -39,7 +39,7 @@ Arquivos compartilhados (`pom.xml` da raiz, `LICENSE`, `AGENTS.md`, `FORK-PLAN.m
 
 ## Tarefas do Codex (backend e implantação)
 
-**T1. Build de referência.** Compilar backend e front-end deste branch e registrar: versões de JDK/Node usadas, tempo, e qualquer erro. O ambiente em nuvem do Claude não alcança o Maven Central, então esta etapa nunca foi validada; as mudanças de interface (tema, logo, locale, dashboard) foram conferidas só por leitura.
+**T1. Build de referência do backend.** Compilar com `mvn clean install -DskipTests -Dlicense.skip=true -Dskip.ui.build=true` (o build do front é do Claude Code) e registrar versão do JDK, tempo e qualquer erro. O ambiente em nuvem do Claude não alcança o Maven Central, então esta etapa nunca foi validada.
 
 **T2. Desligar canais de saída para a ThingsBoard por padrão** (`application/src/main/resources/thingsboard.yml`):
 - `updates.enabled`: `${UPDATES_ENABLED:true}` → padrão `false`. Hoje envia plataforma, versão e um identificador da instalação para `updates.thingsboard.io`.
@@ -57,7 +57,8 @@ Arquivos compartilhados (`pom.xml` da raiz, `LICENSE`, `AGENTS.md`, `FORK-PLAN.m
 
 ## Tarefas do Claude (interface)
 
-- Decidir o destino dos cards "Getting started" e "Documentation" dos painéis iniciais (hoje apontam para a documentação da ThingsBoard).
+- **T1a. Build de referência do front-end** (`cd ui-ngx && yarn install && yarn build:prod`): corrigir qualquer quebra do tema SCSS, do locale e dos dashboards, que nunca foram compilados.
+- Remover os cards "Getting started" e "Documentation" dos painéis iniciais (`ui-ngx/src/assets/dashboard/*.json`), que apontam para a documentação da ThingsBoard.
 - Revisar o pt_BR: ~465 chaves ausentes e ~450 idênticas ao inglês.
 - Ajustes visuais do tema depois do build de referência.
 
