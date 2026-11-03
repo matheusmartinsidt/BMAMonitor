@@ -1,0 +1,35 @@
+# Uso (dentro de ui-ngx/):
+#   docker compose -f docker-compose.build.yml run --rm build     # build:prod, saída em target/generated-resources/public
+#   docker compose -f docker-compose.build.yml up ui-dev           # dev server em http://localhost:4200
+name: bmamonitor-ui
+services:
+  build:
+    image: bmamonitor-ui-build
+    container_name: bmamonitor-ui-build
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+      target: deps
+    working_dir: /app
+    command: yarn build:prod
+    volumes:
+      - .:/app
+      - ui-node-modules:/app/node_modules
+  ui-dev:
+    image: bmamonitor-ui-dev
+    container_name: bmamonitor-ui-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+      target: dev
+    ports:
+      - "4200:4200"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      BACKEND_URL: http://host.docker.internal:8080
+    volumes:
+      - .:/app
+      - ui-node-modules:/app/node_modules
+volumes:
+  ui-node-modules:

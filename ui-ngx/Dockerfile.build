@@ -1,0 +1,30 @@
+# Build do front-end do BMAMonitor (ui-ngx) dentro do Docker.
+# Node 22 é a versão fixada no pom.xml do ui-ngx (v22.23.4); Angular 20 exige >=20.19 / >=22.12.
+#
+#   docker build -f Dockerfile.build -t bmamonitor-ui-build .            # build:prod (falha o build se quebrar)
+#   docker build -f Dockerfile.build --target dist --output type=local,dest=./target/generated-resources/public .
+FROM node:22-bookworm-slim AS deps
+WORKDIR /app
+ENV CI=true
+COPY package.json yarn.lock .yarnrc ./
+COPY patches ./patches
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git ca-certificates \
+ && rm -rf /var/lib/apt/lists/* \
+ && npm install -g yarn@1.22.22 --force \
+ && yarn install --frozen-lockfile --network-timeout 1000000
+
+FROM deps AS dev
+# Servidor de desenvolvimento: código-fonte montado por volume (ver docker-compose.build.yml).
+ENV BACKEND_URL=http://host.docker.internal:8080
+EXPOSE 4200
+CMD ["node", "--max_old_space_size=8048", "./node_modules/@angular/cli/bin/ng", "serve", \
+     "--configuration", "development", "--host", "0.0.0.0", "--port", "4200", \
+     "--proxy-config", "proxy.conf.docker.js", "--poll", "2000"]
+
+FROM deps AS build
+COPY . .
+RUN yarn build:prod
+
+FROM scratch AS dist
+COPY --from=build /app/target/generated-resources/public /
