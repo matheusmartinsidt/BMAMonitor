@@ -183,43 +183,6 @@
         "id": "d2784f6c-0518-fd95-1d28-b21f70bdcb10",
         "typeFullFqn": "system.cards.markdown_card"
       },
-      "66dcf1a2-9d83-6873-c693-d6a5d989b3f8": {
-        "type": "latest",
-        "sizeX": 5,
-        "sizeY": 3.5,
-        "config": {
-          "datasources": [],
-          "showTitle": false,
-          "backgroundColor": "#fff",
-          "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "16px",
-          "settings": {
-            "useMarkdownTextFunction": false,
-            "markdownTextPattern": "<div style=\"height: 100%;\">\n    <tb-version-info></tb-version-info>\n</div>",
-            "applyDefaultMarkdownStyle": false
-          },
-          "title": "Version",
-          "showTitleIcon": false,
-          "iconColor": "rgba(0, 0, 0, 0.87)",
-          "iconSize": "24px",
-          "titleTooltip": "",
-          "dropShadow": false,
-          "enableFullscreen": false,
-          "widgetStyle": {},
-          "titleStyle": {
-            "fontSize": "16px",
-            "fontWeight": 400
-          },
-          "showLegend": false,
-          "widgetCss": "",
-          "pageSize": 1024,
-          "noDataDisplayMessage": ""
-        },
-        "row": 0,
-        "col": 0,
-        "id": "66dcf1a2-9d83-6873-c693-d6a5d989b3f8",
-        "typeFullFqn": "system.cards.markdown_card"
-      },
       "867f82cf-ecf2-2d5c-35cb-08c6f2edc3a4": {
         "type": "static",
         "sizeX": 7.5,
@@ -2248,10 +2211,10 @@
                 "mobileHeight": 11
               },
               "8acbf5df-f9fc-114d-216f-86f081aa4779": {
-                "sizeX": 52,
+                "sizeX": 85,
                 "sizeY": 16,
                 "row": 42,
-                "col": 33,
+                "col": 0,
                 "mobileHide": true
               },
               "d2784f6c-0518-fd95-1d28-b21f70bdcb10": {
@@ -2261,14 +2224,6 @@
                 "col": 0,
                 "mobileOrder": 8,
                 "mobileHeight": 8
-              },
-              "66dcf1a2-9d83-6873-c693-d6a5d989b3f8": {
-                "sizeX": 33,
-                "sizeY": 16,
-                "row": 42,
-                "col": 0,
-                "mobileOrder": 9,
-                "mobileHeight": 7
               },
               "867f82cf-ecf2-2d5c-35cb-08c6f2edc3a4": {
                 "sizeX": 44,
