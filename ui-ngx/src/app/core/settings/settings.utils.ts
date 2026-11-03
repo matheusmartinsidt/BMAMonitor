@@ -52,5 +52,7 @@ function detectSupportedLang(targetLang: string, translations: string[]): string
       }
     }
   }
-  return env.defaultLang;
+  // Last resort when the browser language matches no supported locale.
+  // defaultLang stays the translation fallback for missing keys.
+  return env.defaultUserLang;
 }
