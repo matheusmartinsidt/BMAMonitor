@@ -893,7 +893,7 @@ redis:
 # Controls whether the platform periodically checks for new ThingsBoard releases.
 updates:
   # Enable/disable checks for the new version
-  enabled: "${UPDATES_ENABLED:true}"
+  enabled: "${UPDATES_ENABLED:false}"
 
 # Spring CORS configuration parameters.
 # Controls the Access-Control-Allow-Origin and Access-Control-Allow-Credentials response headers.
@@ -2244,7 +2244,7 @@ iot-hub:
   max-install-timeout-ms: "${IOT_HUB_MAX_INSTALL_TIMEOUT_MS:60000}" # upper clamp in milliseconds for the post-install wait declared in a solution template's solution.json. Prevents a malicious or misconfigured template from pinning an HTTP worker thread.
 
 community-grant:
-  enabled: "${COMMUNITY_GRANT_ENABLED:true}" # enables the community grant enrollment flow; when disabled, no flow can be started and no outbound calls are made.
+  enabled: "${COMMUNITY_GRANT_ENABLED:false}" # enables the community grant enrollment flow; when disabled, no flow can be started and no outbound calls are made.
   base-url: "${COMMUNITY_GRANT_BASE_URL:https://license.thingsboard.io}" # base URL of the license portal.
   connect-timeout-sec: "${COMMUNITY_GRANT_CONNECT_TIMEOUT_SEC:5}" # timeout in seconds to connect to the license portal.
   read-timeout-sec: "${COMMUNITY_GRANT_READ_TIMEOUT_SEC:10}" # timeout in seconds to read from the license portal.
