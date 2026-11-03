@@ -1,7 +1,8 @@
 # AGENTS.md — BMAMonitor
 
 Plataforma IoT própria da BM Automach, fork da ThingsBoard **v4.3.1.8 (Apache 2.0)**, para hospedar clientes com marca própria.
-Leia também `FORK-PLAN.md`. Este arquivo é o contrato de trabalho entre os agentes (Claude e Codex).
+Leia também `FORK-PLAN.md`. Este arquivo é o contrato de trabalho dos agentes.
+Claude Code e Codex trabalham **de forma independente e nunca ao mesmo tempo**: o Matheus aciona um de cada vez, cada um na sua branch, sem orquestrador.
 
 ## Regras inegociáveis
 
@@ -14,10 +15,12 @@ Leia também `FORK-PLAN.md`. Este arquivo é o contrato de trabalho entre os age
 
 ## Divisão de diretórios
 
-| Frente | Dono | Diretórios |
+| Frente | Dono padrão | Diretórios |
 |---|---|---|
-| Interface, marca, idioma, tema | Claude | `ui-ngx/` |
+| Interface, marca, idioma, tema | Claude Code | `ui-ngx/` |
 | Backend, implantação, build, segurança | Codex | `application/`, `common/`, `dao/`, `rule-engine/`, `transport/`, `docker/`, `msa/`, `packaging/` |
+
+Quem estiver ativo pode pegar qualquer tarefa da lista abaixo, mesmo fora do seu diretório padrão. Antes de começar, rode `git fetch` e confira `git branch -r` para não repetir trabalho de outra branch.
 
 Arquivos compartilhados (`pom.xml` da raiz, `LICENSE`, `AGENTS.md`, `FORK-PLAN.md`) só mudam com combinado prévio.
 
