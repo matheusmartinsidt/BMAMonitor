@@ -35,7 +35,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/thingsboard.ico",
+              "src/bmamonitor.ico",
+              "src/favicon.svg",
               "src/assets",
               {
                 "glob": "*.svg",
