@@ -39,7 +39,13 @@ Alternativa pelo compose (funciona, mas leva cerca de 22 min no Windows por caus
 docker compose -f docker-compose.build.yml run --rm build
 ```
 
-Dev server em `http://localhost:4200`, com o backend do host em `BACKEND_URL` (padrão `http://host.docker.internal:8080`). Ainda não testado:
+Pré-visualização estática do build de produção, em `http://localhost:4200`, sem backend (mostra a tela de login e o tema; testado). Exige o resultado do build em `ui-ngx/target/generated-resources/public`:
+
+```bash
+docker compose -f docker-compose.build.yml up -d ui-preview
+```
+
+Dev server do Angular (`ui-dev`), com o backend do host em `BACKEND_URL` (padrão `http://host.docker.internal:8080`). **Não funcionou nesta máquina:** o container é encerrado por falta de memória (`OOMKilled`, código 137), mesmo com heap de 4 GB, porque o Docker Desktop tem só 6 GB. Para usá-lo é preciso aumentar a memória do Docker Desktop (Configurações, Resources) para uns 10 GB ou mais:
 
 ```bash
 docker compose -f docker-compose.build.yml up ui-dev
@@ -49,4 +55,4 @@ Os serviços `build` e `ui-dev` dividem o volume `ui-node-modules` e não devem 
 
 ## Arquivos
 
-Em `ui-ngx/`: `Dockerfile.build`, `docker-compose.build.yml`, `.dockerignore`, `proxy.conf.docker.js`. O `proxy.conf.js` original não foi alterado.
+Em `ui-ngx/`: `Dockerfile.build`, `docker-compose.build.yml`, `.dockerignore`, `proxy.conf.docker.js`, `nginx.preview.conf`. O `proxy.conf.js` original não foi alterado.

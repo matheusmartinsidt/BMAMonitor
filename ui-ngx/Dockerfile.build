@@ -18,7 +18,7 @@ FROM deps AS dev
 # Servidor de desenvolvimento: código-fonte montado por volume (ver docker-compose.build.yml).
 ENV BACKEND_URL=http://host.docker.internal:8080
 EXPOSE 4200
-CMD ["node", "--max_old_space_size=8048", "./node_modules/@angular/cli/bin/ng", "serve", \
+CMD ["node", "--max_old_space_size=4096", "./node_modules/@angular/cli/bin/ng", "serve", \
      "--configuration", "development", "--host", "0.0.0.0", "--port", "4200", \
      "--proxy-config", "proxy.conf.docker.js", "--poll", "2000"]
 

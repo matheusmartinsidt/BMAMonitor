@@ -31,5 +31,14 @@ services:
     volumes:
       - .:/app
       - ui-node-modules:/app/node_modules
+  # Serve o build de produção (rodar o serviço "build" ou o target "dist" antes). Sem backend: mostra login e tema.
+  ui-preview:
+    image: nginx:alpine
+    container_name: bmamonitor-ui-preview
+    ports:
+      - "4200:80"
+    volumes:
+      - ./target/generated-resources/public:/usr/share/nginx/html:ro
+      - ./nginx.preview.conf:/etc/nginx/conf.d/default.conf:ro
 volumes:
   ui-node-modules:
