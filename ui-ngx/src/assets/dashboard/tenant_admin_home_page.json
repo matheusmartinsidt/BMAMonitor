@@ -7,29 +7,29 @@
     "description": "",
     "widgets": {
       "fe678c4f-ea86-4cae-8d81-6fca493fe311": {
-          "type": "static",
-          "sizeX": 7.5,
-          "sizeY": 6.5,
-          "config": {
-              "showTitle": false,
-              "backgroundColor": "rgb(255, 255, 255)",
-              "color": "rgba(0, 0, 0, 0.87)",
-              "padding": "16px",
-              "settings": {},
-              "title": "IoT Hub",
-              "dropShadow": true,
-              "enableFullscreen": false,
-              "widgetStyle": {},
-              "widgetCss": "",
-              "pageSize": 1024,
-              "noDataDisplayMessage": "",
-              "showLegend": false,
-              "datasources": []
-          },
-          "row": 0,
-          "col": 0,
-          "id": "fe678c4f-ea86-4cae-8d81-6fca493fe311",
-          "typeFullFqn": "system.home_page_widgets.iot_hub"
+        "type": "static",
+        "sizeX": 7.5,
+        "sizeY": 6.5,
+        "config": {
+          "showTitle": false,
+          "backgroundColor": "rgb(255, 255, 255)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "16px",
+          "settings": {},
+          "title": "IoT Hub",
+          "dropShadow": true,
+          "enableFullscreen": false,
+          "widgetStyle": {},
+          "widgetCss": "",
+          "pageSize": 1024,
+          "noDataDisplayMessage": "",
+          "showLegend": false,
+          "datasources": []
+        },
+        "row": 0,
+        "col": 0,
+        "id": "fe678c4f-ea86-4cae-8d81-6fca493fe311",
+        "typeFullFqn": "system.home_page_widgets.iot_hub"
       },
       "d70cc256-4c7b-ee06-9905-b8c5e546605f": {
         "type": "latest",
@@ -68,33 +68,6 @@
         "col": 0,
         "id": "d70cc256-4c7b-ee06-9905-b8c5e546605f",
         "typeFullFqn": "system.cards.markdown_card"
-      },
-      "867f82cf-ecf2-2d5c-35cb-08c6f2edc3a4": {
-        "type": "static",
-        "sizeX": 7.5,
-        "sizeY": 3,
-        "config": {
-          "datasources": [],
-          "showTitle": false,
-          "backgroundColor": "rgb(255, 255, 255)",
-          "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "16px",
-          "settings": {
-            "columns": 2
-          },
-          "title": "Documentation",
-          "dropShadow": false,
-          "enableFullscreen": false,
-          "widgetStyle": {},
-          "widgetCss": "",
-          "pageSize": 1024,
-          "noDataDisplayMessage": "",
-          "showLegend": false
-        },
-        "row": 0,
-        "col": 0,
-        "id": "867f82cf-ecf2-2d5c-35cb-08c6f2edc3a4",
-        "typeFullFqn": "system.home_page_widgets.documentation_links"
       },
       "ebbd0a6e-8a47-e770-5086-7f4974250f2d": {
         "type": "static",
@@ -1090,31 +1063,6 @@
         "col": 0,
         "id": "35bda856-2495-4f72-e35e-925bac8b8da7"
       },
-      "ed33e56f-293b-aaaa-ad19-0cf499dc926f": {
-        "type": "static",
-        "sizeX": 7.5,
-        "sizeY": 6.5,
-        "config": {
-          "showTitle": false,
-          "backgroundColor": "rgb(255, 255, 255)",
-          "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "16px",
-          "settings": {
-            "columns": 3
-          },
-          "title": "Getting started",
-          "dropShadow": false,
-          "enableFullscreen": false,
-          "widgetStyle": {},
-          "widgetCss": "",
-          "noDataDisplayMessage": "",
-          "datasources": []
-        },
-        "row": 0,
-        "col": 0,
-        "id": "ed33e56f-293b-aaaa-ad19-0cf499dc926f",
-        "typeFullFqn": "system.home_page_widgets.getting_started"
-      },
       "8c5207d8-7103-4dc2-db48-d61c0c8c61fd": {
         "typeFullFqn": "system.mobile_app_qr_code",
         "type": "static",
@@ -1174,23 +1122,16 @@
                 "mobileOrder": 5,
                 "mobileHeight": 10
               },
-              "867f82cf-ecf2-2d5c-35cb-08c6f2edc3a4": {
-                "sizeX": 29,
-                "sizeY": 14,
-                "row": 44,
-                "col": 28,
-                "mobileHide": true
-              },
               "ebbd0a6e-8a47-e770-5086-7f4974250f2d": {
-                "sizeX": 28,
+                "sizeX": 42,
                 "sizeY": 14,
                 "row": 44,
-                "col": 57,
+                "col": 43,
                 "mobileOrder": 4,
                 "mobileHeight": 10
               },
               "9e3ef045-d8bc-1640-a3f4-2dd10b19d50e": {
-                "sizeX": 28,
+                "sizeX": 43,
                 "sizeY": 14,
                 "row": 44,
                 "col": 0,
@@ -1314,17 +1255,10 @@
         "layouts": {
           "main": {
             "widgets": {
-              "ed33e56f-293b-aaaa-ad19-0cf499dc926f": {
-                "sizeX": 120,
-                "sizeY": 44,
-                "row": 0,
-                "col": 0,
-                "mobileHide": true
-              },
               "8c5207d8-7103-4dc2-db48-d61c0c8c61fd": {
                 "sizeX": 120,
                 "sizeY": 14,
-                "row": 44,
+                "row": 0,
                 "col": 0
               }
             },

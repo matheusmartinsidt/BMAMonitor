@@ -183,33 +183,6 @@
         "id": "d2784f6c-0518-fd95-1d28-b21f70bdcb10",
         "typeFullFqn": "system.cards.markdown_card"
       },
-      "867f82cf-ecf2-2d5c-35cb-08c6f2edc3a4": {
-        "type": "static",
-        "sizeX": 7.5,
-        "sizeY": 3,
-        "config": {
-          "datasources": [],
-          "showTitle": false,
-          "backgroundColor": "rgb(255, 255, 255)",
-          "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "16px",
-          "settings": {
-            "columns": 3
-          },
-          "title": "Documentation",
-          "dropShadow": false,
-          "enableFullscreen": false,
-          "widgetStyle": {},
-          "widgetCss": "",
-          "pageSize": 1024,
-          "noDataDisplayMessage": "",
-          "showLegend": false
-        },
-        "row": 0,
-        "col": 0,
-        "id": "867f82cf-ecf2-2d5c-35cb-08c6f2edc3a4",
-        "typeFullFqn": "system.home_page_widgets.documentation_links"
-      },
       "b35fa1b0-7f95-0b23-fade-d066653a40e1": {
         "type": "latest",
         "sizeX": 5,
@@ -2077,31 +2050,6 @@
         "col": 0,
         "id": "b9174a99-2a00-3dbe-0eae-927fd8506345"
       },
-      "c02d59a0-c979-5ec6-7f58-a5d89ff66236": {
-        "type": "static",
-        "sizeX": 7.5,
-        "sizeY": 6.5,
-        "config": {
-          "showTitle": false,
-          "backgroundColor": "rgb(255, 255, 255)",
-          "color": "rgba(0, 0, 0, 0.87)",
-          "padding": "16px",
-          "settings": {
-            "columns": 3
-          },
-          "title": "Getting started",
-          "dropShadow": false,
-          "enableFullscreen": false,
-          "widgetStyle": {},
-          "widgetCss": "",
-          "noDataDisplayMessage": "",
-          "datasources": []
-        },
-        "row": 0,
-        "col": 0,
-        "id": "c02d59a0-c979-5ec6-7f58-a5d89ff66236",
-        "typeFullFqn": "system.home_page_widgets.getting_started"
-      },
       "53d5f2dd-d432-5362-745f-63bf4487dc96": {
         "typeFullFqn": "system.mobile_app_qr_code",
         "type": "static",
@@ -2219,22 +2167,15 @@
               },
               "d2784f6c-0518-fd95-1d28-b21f70bdcb10": {
                 "sizeX": 44,
-                "sizeY": 13,
-                "row": 29,
+                "sizeY": 21,
+                "row": 21,
                 "col": 0,
                 "mobileOrder": 8,
                 "mobileHeight": 8
               },
-              "867f82cf-ecf2-2d5c-35cb-08c6f2edc3a4": {
-                "sizeX": 44,
-                "sizeY": 14,
-                "row": 15,
-                "col": 0,
-                "mobileHide": true
-              },
               "163025d8-3ca4-dd1e-c17b-e40d8e03e8a8": {
                 "sizeX": 44,
-                "sizeY": 15,
+                "sizeY": 21,
                 "mobileOrder": 0,
                 "mobileHeight": 7,
                 "row": 0,
@@ -2488,17 +2429,10 @@
         "layouts": {
           "main": {
             "widgets": {
-              "c02d59a0-c979-5ec6-7f58-a5d89ff66236": {
-                "sizeX": 120,
-                "sizeY": 45,
-                "row": 0,
-                "col": 0,
-                "mobileHide": true
-              },
               "53d5f2dd-d432-5362-745f-63bf4487dc96": {
                 "sizeX": 120,
                 "sizeY": 17,
-                "row": 45,
+                "row": 0,
                 "col": 0
               }
             },
