@@ -1,0 +1,7 @@
+**
+!application/
+!application/target/
+!application/target/*-boot.jar
+!docker/
+!docker/production/
+!docker/production/start-server.sh

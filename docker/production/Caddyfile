@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright The Thingsboard Authors
+# SPDX-License-Identifier: Apache-2.0
+
+{
+    email {$ACME_EMAIL}
+}
+
+{$BMAMONITOR_DOMAIN} {
+    encode zstd gzip
+    header Strict-Transport-Security "max-age=31536000"
+    reverse_proxy server:8080
+}

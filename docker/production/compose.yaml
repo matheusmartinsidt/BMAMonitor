@@ -1,0 +1,126 @@
+# SPDX-FileCopyrightText: Copyright The Thingsboard Authors
+# SPDX-License-Identifier: Apache-2.0
+
+name: bmamonitor
+
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - private
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  valkey:
+    image: valkey/valkey:8.0.11-alpine
+    restart: unless-stopped
+    environment:
+      VALKEY_PASSWORD: ${VALKEY_PASSWORD:?set VALKEY_PASSWORD}
+    command: ["sh", "-ec", "exec valkey-server --appendonly yes --requirepass \"$$VALKEY_PASSWORD\""]
+    volumes:
+      - valkey_data:/data
+    networks:
+      - private
+    healthcheck:
+      test: ["CMD-SHELL", "VALKEYCLI_AUTH=\"$$VALKEY_PASSWORD\" valkey-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  server:
+    image: ${BMAMONITOR_IMAGE:?set BMAMONITOR_IMAGE}
+    build:
+      context: ../..
+      dockerfile: docker/production/Dockerfile.server
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:?set POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:?set POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      DATABASE_TS_TYPE: sql
+      CACHE_TYPE: redis
+      REDIS_CONNECTION_TYPE: standalone
+      REDIS_HOST: valkey
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ${VALKEY_PASSWORD:?set VALKEY_PASSWORD}
+      TB_QUEUE_TYPE: in-memory
+      TB_SERVICE_TYPE: monolith
+      HTTP_BIND_PORT: "8080"
+      HTTP_FORWARD_HEADERS_STRATEGY: framework
+      TB_CORS_ALLOWED_ORIGIN_PATTERNS: https://${BMAMONITOR_DOMAIN:?set BMAMONITOR_DOMAIN}
+      TB_CORS_ALLOW_CREDENTIALS: "true"
+      UPDATES_ENABLED: "false"
+      COMMUNITY_GRANT_ENABLED: "false"
+      JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:--Xms512m -Xmx2g}
+    volumes:
+      - server_logs:/var/log/thingsboard
+    networks:
+      - private
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      BMAMONITOR_DOMAIN: ${BMAMONITOR_DOMAIN:?set BMAMONITOR_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - edge
+      - private
+    depends_on:
+      - server
+
+  backup:
+    image: postgres:16
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "/opt/backup/backup-loop.sh"]
+    environment:
+      PGHOST: postgres
+      PGDATABASE: ${POSTGRES_DB:?set POSTGRES_DB}
+      PGUSER: ${POSTGRES_USER:?set POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      BACKUP_INTERVAL_SECONDS: ${BACKUP_INTERVAL_SECONDS:-86400}
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-14}
+    volumes:
+      - ./backup-loop.sh:/opt/backup/backup-loop.sh:ro
+      - backup_data:/backups
+    networks:
+      - private
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+networks:
+  private:
+    internal: true
+  edge: {}
+
+volumes:
+  postgres_data: {}
+  valkey_data: {}
+  server_logs: {}
+  caddy_data: {}
+  caddy_config: {}
+  backup_data: {}
