@@ -4,7 +4,15 @@ Stack de um nó em `docker/production/compose.yaml`: BMAMonitor monolítico, Pos
 
 ## Artefato do servidor
 
-`docker/production/Dockerfile.server` exige `application/target/*-boot.jar` gerado de um **build completo do fork com os recursos do front**. O build de referência com `-Dskip.ui.build=true` valida o backend, mas pula esse artefato; não serve para criar a imagem de produção. A saída do front feita pelo Docker do Claude deve estar em `ui-ngx/target/generated-resources/public` antes do empacotamento completo. Esse diretório é gerado e não deve ser commitado. Publique a imagem do fork como `BMAMONITOR_IMAGE`; não use uma imagem da ThingsBoard upstream para esta stack.
+`docker/production/Dockerfile.server` exige `application/target/*-boot.jar` gerado com os recursos do front. O build de referência com `-Dskip.ui.build=true` valida o backend, mas pula o boot JAR. O front é compilado no Docker a partir dos arquivos da branch `claude/u1-dashboards-ptbr`; não é necessário instalar Node ou yarn no host. Depois que essa branch estiver integrada ao checkout, execute na raiz do repositório:
+
+```sh
+docker build -f ui-ngx/Dockerfile.build --target build -t bmamonitor-ui-build ui-ngx
+docker build -f ui-ngx/Dockerfile.build --target dist --output type=local,dest=./ui-ngx/target/generated-resources/public ui-ngx
+mvn package -pl ui-ngx,application -am -DskipTests -Dlicense.skip=true -Dskip.ui.build=true -Dpkg.skip.bootjar=false -Dpkg.skip.deb=true -Dpkg.skip.rpm=true -Dpkg.skip.zip=true
+```
+
+O segundo comando gera `ui-ngx/target/generated-resources/public`. O `ui-ngx/pom.xml` inclui `target/generated-resources` no JAR da UI, dependência de runtime de `application`; o terceiro comando empacota esse JAR e habilita somente o boot JAR. **Não use `mvn clean` depois de extrair o front**, pois ele apaga o diretório gerado. Esses comandos de integração ainda precisam de execução conjunta com a branch do Claude. O diretório gerado não deve ser commitado. Publique a imagem do fork como `BMAMONITOR_IMAGE`; não use uma imagem da ThingsBoard upstream para esta stack.
 
 O comando de construção da imagem, após obter o boot JAR, é:
 
@@ -12,7 +20,7 @@ O comando de construção da imagem, após obter o boot JAR, é:
 docker build -f docker/production/Dockerfile.server -t bmamonitor/server:4.3.1.8 .
 ```
 
-O fluxo de empacotamento com front pré-compilado ainda precisa de validação integrada com a branch do Claude. Não coloque a stack em produção antes de verificar que a imagem contém o front e que o instalador do banco conclui.
+Não coloque a stack em produção antes de verificar que a imagem contém o front e que o instalador do banco conclui.
 
 ## Configuração
 
@@ -50,4 +58,4 @@ Integrações que exigem chamadas externas do servidor, como webhooks ou SMTP, n
 
 ## Validação local
 
-Em 2026-11-03, `docker compose --env-file docker/production/.env.example -f docker/production/compose.yaml config --quiet` passou, o Caddyfile passou em `caddy validate`, e ambos os scripts passaram em `sh -n`. A imagem do servidor não foi construída porque o build de referência sem UI não gera `application/target/*-boot.jar`, e a branch `claude/u1-dashboards-ptbr` ainda não estava disponível no remoto deste checkout. O arquivo `Dockerfile.server.dockerignore` limita o contexto de construção ao boot JAR e ao script de inicialização, sem enviar o checkout ou arquivos `.env` ao daemon Docker.
+Em 2026-11-03, `docker compose --env-file docker/production/.env.example -f docker/production/compose.yaml config --quiet` passou, o Caddyfile passou em `caddy validate`, e ambos os scripts passaram em `sh -n`. A imagem do servidor não foi construída porque o build de referência sem UI não gera `application/target/*-boot.jar`, e a branch `claude/u1-dashboards-ptbr` ainda não estava disponível no remoto deste checkout na última verificação. O arquivo `Dockerfile.server.dockerignore` limita o contexto de construção ao boot JAR e ao script de inicialização, sem enviar o checkout ou arquivos `.env` ao daemon Docker.
